@@ -1,0 +1,14 @@
+//
+// Created by anasse.elboudir on 28/02/2022.
+//
+
+#ifndef ALGORITHME_STRUCTURE_DONNEE_GRAPHE_H
+#define ALGORITHME_STRUCTURE_DONNEE_GRAPHE_H
+
+
+class Graphe {
+
+};
+
+
+#endif //ALGORITHME_STRUCTURE_DONNEE_GRAPHE_H

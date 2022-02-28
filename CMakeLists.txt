@@ -8,4 +8,4 @@ include_directories(.)
 add_executable(algorithme_structure_donnee
         GrapheMatrice/GrapheMatrice.cpp
         GrapheMatrice/GrapheMatrice.h
-        main.cpp)
+        main.cpp Graphe/Graphe.cpp Graphe/Graphe.h)
