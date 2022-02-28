@@ -3,7 +3,18 @@
 //
 #include "GrapheMatrice/GrapheMatrice.h"
 
+void matrice_continuite();
+void liste_adjacence();
+
 int main()
+{
+    //matrice_continuite();
+    liste_adjacence();
+
+    return 0;
+}
+
+void matrice_continuite()
 {
     GrapheMatrice g(11);
     g.ajouterArc('a', 'b');
@@ -18,7 +29,10 @@ int main()
     g.ajouterArc('i', 'k');
     g.ajouterArc('j', 'k');
 
+    std::cout << "affichage de notre graphe : " << std::endl;
     g.afficherGraphe();
+
+    std::cout << "parcour iteratif : " << std::endl;
     g.parcourProfondeurRecursif();
 
     std::cout << std::endl << "nombre de degre de a : " << g.degre('a') << std::endl;
@@ -26,6 +40,9 @@ int main()
     std::cout << std::boolalpha << "Le graphe est orienter : "  << g.estOriente() << std::noboolalpha << std::endl;
     std::cout << std::boolalpha << "Le graphe est fortement connexe : "  << g.estFortementConnexe() << std::noboolalpha<< std::endl;
     std::cout << std::boolalpha << "Le graphe est connexe : "  << g.estConnexe() << std::noboolalpha << std::endl;
+}
 
-    return 0;
+void liste_adjacence()
+{
+
 }
