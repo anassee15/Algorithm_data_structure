@@ -6,6 +6,6 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(.)
 
 add_executable(algorithme_structure_donnee
-        Graphe.cpp
-        Graphe.h
+        GrapheMatrice/GrapheMatrice.cpp
+        GrapheMatrice/GrapheMatrice.h
         main.cpp)
