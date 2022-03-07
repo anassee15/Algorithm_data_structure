@@ -6,6 +6,7 @@
 #define ALGORITHME_STRUCTURE_DONNEE_GRAPHELISTE_H
 
 #include <list>
+#include <stack>
 #include <iostream>
 using namespace std;
 
@@ -31,6 +32,7 @@ private:
     void visiteSommetProfondeurR(int index, bool = true);
     void visiteSommetProfondeurI(int index, bool = true);
     std::list<Link>* links = nullptr;
+    std::stack<int> pile;
     int nb_sommets;
     bool* visited;
     bool* stacked;

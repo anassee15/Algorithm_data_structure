@@ -9,8 +9,9 @@ void liste_adjacence();
 
 int main()
 {
-    //matrice_continuite();
+    matrice_continuite();
     liste_adjacence();
+
     return 0;
 }
 
@@ -32,7 +33,7 @@ void matrice_continuite()
     std::cout << "affichage de notre graphe : " << std::endl;
     g.afficherGraphe();
 
-    std::cout << "parcour iteratif : " << std::endl;
+    std::cout << "parcour recursif : " << std::endl;
     g.parcourProfondeurRecursif();
 
     std::cout << std::endl << "nombre de degre de a : " << g.degre('a') << std::endl;
@@ -44,23 +45,26 @@ void matrice_continuite()
 
 void liste_adjacence()
 {
-    GrapheListe g(11);
-    g.ajouterArc('A', 'B');
-    g.ajouterArc('A', 'C');
-    g.ajouterArc('C', 'F');
-    g.ajouterArc('A', 'G');
-    g.ajouterArc('D', 'E');
-    g.ajouterArc('F', 'D');
-    g.ajouterArc('F', 'E');
-    g.ajouterArc('E', 'G');
-    g.ajouterArc('I', 'J');
-    g.ajouterArc('I', 'K');
-    g.ajouterArc('J', 'K');
+    GrapheListe g1(11);
+    g1.ajouterArc('A', 'B');
+    g1.ajouterArc('A', 'C');
+    g1.ajouterArc('C', 'F');
+    g1.ajouterArc('A', 'G');
+    g1.ajouterArc('D', 'E');
+    g1.ajouterArc('F', 'D');
+    g1.ajouterArc('F', 'E');
+    g1.ajouterArc('E', 'G');
+    g1.ajouterArc('I', 'J');
+    g1.ajouterArc('I', 'K');
+    g1.ajouterArc('J', 'K');
 
     std::cout << "affichage de notre graphe : " << std::endl;
-    g.display();
+    g1.display();
 
     std::cout << std::endl;
-    std::cout << "parcour iteratif : " << std::endl;
-    g.parcourProfondeurRecursif();
+    std::cout << "parcour recursif : " << std::endl;
+    g1.parcourProfondeurRecursif();
+
+//    std::cout << "parcour iteratif : " << std::endl;
+//    g1.parcourProfondeurIteratif();
 }

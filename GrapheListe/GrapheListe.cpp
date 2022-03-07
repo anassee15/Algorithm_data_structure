@@ -62,6 +62,7 @@ void GrapheListe::display()
         std::cout << std::endl;
     }
 }
+
 void GrapheListe::visiteSommetProfondeurR(int index, bool show)
 {
     // IMPORTANT
@@ -96,8 +97,47 @@ void GrapheListe::parcourProfondeurRecursif()
     }
 }
 
+void GrapheListe::visiteSommetProfondeurI(int index, bool show)
+{
+    if(!this->visited[index])
+    {
+        this->pile.push(index);
+    }
+
+    while (!this->pile.empty())
+    {
+        int indice = this->pile.top();
+        this->pile.pop();
+
+        cout << convertIntToChar(indice) << endl;
+        this->visited[indice] = true;
+
+        for (auto &nod: this->links[indice]) {
+            int position = convertCharToIndex(nod.label);
+            if (!this->stacked[position] && !this->visited[position])
+            {
+                this->stacked[position] = true;
+                this->pile.push(position);
+            }
+        }
+    }
+}
+
 void GrapheListe::parcourProfondeurIteratif()
 {
+    for(int i=0; i < this->nb_sommets; i++)
+    {
+        this->visited[i] = false;
+    }
 
+    while(!this->pile.empty())
+    {
+        this->pile.pop();
+    }
+
+    for(int i=0; i < this->nb_sommets; i++)
+    {
+        this->visiteSommetProfondeurI(i);
+    }
 }
 
