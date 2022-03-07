@@ -25,7 +25,7 @@ class GrapheMatrice {
         static int convertCharToIndex(char s);
 
     private:
-        void visiteSommetProfondeur(int index, bool = true);
+        void visiteSommetProfondeurR(int index, bool = true);
         int** links = nullptr;
         int taille;
         bool* visited;

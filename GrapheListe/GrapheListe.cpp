@@ -31,12 +31,12 @@ GrapheListe::~GrapheListe()
 void GrapheListe::ajouterArc(char s1, char s2, int p)
 {
     Link nod;
-    nod.indice = s1;
+    nod.label = s1;
     nod.ponderation = p;
 
     this->links[convertCharToIndex(s2)].push_back(nod);
 
-    nod.indice = s2;
+    nod.label = s2;
     nod.ponderation = p;
     this->links[this->convertCharToIndex(s1)].push_back(nod);
 
@@ -45,7 +45,7 @@ void GrapheListe::ajouterArc(char s1, char s2, int p)
 void GrapheListe::ajouterArcOriente(char s1, char s2, int p)
 {
     Link nod;
-    nod.indice = s2;
+    nod.label = s2;
     nod.ponderation = p;
     this->links[this->convertCharToIndex(s1)].push_back(nod);
 }
@@ -55,10 +55,49 @@ void GrapheListe::display()
     for (int i = 0; i < this->nb_sommets; i++)
     {
         std::cout << convertIntToChar(i);
-        for (auto const &n : this->links[i])
+        for (auto const &nod : this->links[i])
         {
-            std::cout << "|" << n.indice;
+            std::cout << " --> (" << nod.label << ", " << nod.ponderation << ")";
         }
         std::cout << std::endl;
     }
 }
+void GrapheListe::visiteSommetProfondeurR(int index, bool show)
+{
+    // IMPORTANT
+    if(this->visited[index])
+    {
+        return;
+    }
+
+    if (show)
+    {
+        cout << convertIntToChar(index) << endl;
+    }
+
+    this->visited[index] = true;
+
+    for (auto& nod : this->links[index])
+    {
+        visiteSommetProfondeurR(this->convertCharToIndex(nod.label), show);
+    }
+}
+
+void GrapheListe::parcourProfondeurRecursif()
+{
+    for(int i=0; i < this->nb_sommets; i++)
+    {
+        this->visited[i] = false;
+    }
+
+    for(int i=0; i < this->nb_sommets; i++)
+    {
+        this->visiteSommetProfondeurR(i);
+    }
+}
+
+void GrapheListe::parcourProfondeurIteratif()
+{
+
+}
+

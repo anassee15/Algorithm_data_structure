@@ -160,7 +160,7 @@ bool GrapheMatrice::estPondere()
     return false;
 }
 
-void GrapheMatrice::visiteSommetProfondeur(int index, bool show)
+void GrapheMatrice::visiteSommetProfondeurR(int index, bool show)
 {
     // IMPORTANT
     if(this->visited[index])
@@ -179,7 +179,7 @@ void GrapheMatrice::visiteSommetProfondeur(int index, bool show)
     {
         if(this->links[index][j] != 0 && !this->visited[j])
         {
-            visiteSommetProfondeur(j, show);
+            visiteSommetProfondeurR(j, show);
         }
     }
 }
@@ -193,7 +193,7 @@ void GrapheMatrice::parcourProfondeurRecursif()
 
     for(int i=0; i < this->taille; i++)
     {
-        this->visiteSommetProfondeur(i);
+        this->visiteSommetProfondeurR(i);
     }
 }
 
@@ -204,7 +204,7 @@ bool GrapheMatrice::estConnexe()
         this->visited[i] = false;
     }
 
-    visiteSommetProfondeur(0, false);
+    visiteSommetProfondeurR(0, false);
 
     for(int i= 0; i < this->taille; i++)
     {
