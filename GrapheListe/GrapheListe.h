@@ -8,6 +8,7 @@
 #include <list>
 #include <stack>
 #include <iostream>
+
 using namespace std;
 
 typedef struct Link
@@ -18,24 +19,29 @@ typedef struct Link
 
 class GrapheListe {
 public:
-    GrapheListe(int sommet);
+    explicit GrapheListe(int sommet);
     ~GrapheListe();
+
     static char convertIntToChar(int i);
     static int convertCharToIndex(char s);
+
+    void display();
     void ajouterArc(char s1, char s2, int = 1);
     void ajouterArcOriente(char s1, char s2, int = 1);
-    void display();
     void parcourProfondeurRecursif();
     void parcourProfondeurIteratif();
 
 private:
     void visiteSommetProfondeurR(int index, bool = true);
     void visiteSommetProfondeurI(int index, bool = true);
+
     std::list<Link>* links = nullptr;
     std::stack<int> pile;
-    int nb_sommets;
+
     bool* visited;
     bool* stacked;
+
+    int nb_sommets;
 };
 
 

@@ -33,7 +33,7 @@ void matrice_contiguite()
     std::cout << "affichage de notre graphe : " << std::endl;
     g.afficherGraphe();
 
-    std::cout << "parcour recursif : " << std::endl;
+    std::cout << "parcours recursif : " << std::endl;
     g.parcourProfondeurRecursif();
 
     std::cout << std::endl << "nombre de degre de a : " << g.degre('a') << std::endl;
@@ -41,6 +41,8 @@ void matrice_contiguite()
     std::cout << std::boolalpha << "Le graphe est orienter : "  << g.estOriente() << std::noboolalpha << std::endl;
     std::cout << std::boolalpha << "Le graphe est fortement connexe : "  << g.estFortementConnexe() << std::noboolalpha<< std::endl;
     std::cout << std::boolalpha << "Le graphe est connexe : "  << g.estConnexe() << std::noboolalpha << "\n" << std::endl;
+
+    g.supprimerGraphe();
 }
 
 void liste_adjacence()
@@ -62,9 +64,11 @@ void liste_adjacence()
     g1.display();
 
     std::cout << std::endl;
-    std::cout << "parcour recursif : " << std::endl;
+
+    std::cout << "parcours recursif : " << std::endl;
     g1.parcourProfondeurRecursif();
 
-//    std::cout << "parcour iteratif : " << std::endl;
+    std::cout << std::endl;
+//    std::cout << "parcours iteratif : " << std::endl;
 //    g1.parcourProfondeurIteratif();
 }

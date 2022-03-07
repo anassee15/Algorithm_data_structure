@@ -20,6 +20,7 @@ GrapheListe::GrapheListe(int sommet)
 {
     this->nb_sommets = sommet;
     this->links = new std::list<Link>[sommet];
+    this->visited = new bool[sommet];
 }
 
 GrapheListe::~GrapheListe()
@@ -95,6 +96,7 @@ void GrapheListe::parcourProfondeurRecursif()
     {
         this->visiteSommetProfondeurR(i);
     }
+
 }
 
 void GrapheListe::visiteSommetProfondeurI(int index, bool show)
