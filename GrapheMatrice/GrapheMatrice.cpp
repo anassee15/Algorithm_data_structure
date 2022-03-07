@@ -40,12 +40,12 @@ void GrapheMatrice::afficherGraphe()
     }
 }
 
-int convertCharToIndex(char s)
+int GrapheMatrice::convertCharToIndex(char s)
 {
     return toupper(s) - 'A';
 }
 
-char convertIntToChar(int i)
+char GrapheMatrice::convertIntToChar(int i)
 {
     char charedInt;
     charedInt = char(i + 65);

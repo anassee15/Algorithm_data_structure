@@ -2,13 +2,14 @@
 // Created by anasse.elboudir on 21/02/2022.
 //
 #include "GrapheMatrice/GrapheMatrice.h"
+#include "GrapheListe/GrapheListe.h"
 
 void matrice_continuite();
 void liste_adjacence();
 
 int main()
 {
-    //matrice_continuite();
+    matrice_continuite();
     liste_adjacence();
 
     return 0;

@@ -21,6 +21,8 @@ class GrapheMatrice {
         bool estOriente();
         bool estPondere();
         bool estConnexe();
+        static char convertIntToChar(int i);
+        static int convertCharToIndex(char s);
 
     private:
         void visiteSommetProfondeur(int index, bool = true);

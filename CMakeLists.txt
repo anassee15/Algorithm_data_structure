@@ -1,11 +1,14 @@
 cmake_minimum_required(VERSION 3.20)
-project(algorithme_structure_donnee)
+project(Nouveau_dossier)
 
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(.)
+include_directories(GrapheListe)
+include_directories(GrapheMatrice)
 
-add_executable(algorithme_structure_donnee
+add_executable(Nouveau_dossier
+        GrapheListe/GrapheListe.cpp
+        GrapheListe/GrapheListe.h
         GrapheMatrice/GrapheMatrice.cpp
         GrapheMatrice/GrapheMatrice.h
-        main.cpp GrapheListe/GrapheListe.cpp GrapheListe/GrapheListe.h)
+        main.cpp)
