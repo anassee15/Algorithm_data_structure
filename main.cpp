@@ -4,18 +4,18 @@
 #include "GrapheMatrice/GrapheMatrice.h"
 #include "GrapheListe/GrapheListe.h"
 
-void matrice_continuite();
+void matrice_contiguite();
 void liste_adjacence();
 
 int main()
 {
-    matrice_continuite();
+    matrice_contiguite();
     liste_adjacence();
 
     return 0;
 }
 
-void matrice_continuite()
+void matrice_contiguite()
 {
     GrapheMatrice g(11);
     g.ajouterArc('A', 'B');
