@@ -7,6 +7,7 @@
 
 #include <list>
 #include <stack>
+#include <queue>
 #include <iostream>
 
 using namespace std;
@@ -29,19 +30,21 @@ public:
     void ajouterArc(char s1, char s2, int = 1);
     void ajouterArcOriente(char s1, char s2, int = 1);
     void parcourProfondeurRecursif();
-    void parcourProfondeurIteratif();
+    void parcourProfondeurIteratifPile();
+    void parcourLargeurIteratifQueue();
+
 
 private:
-    void visiteSommetProfondeurR(int index, bool = true);
-    void visiteSommetProfondeurI(int index, bool = true);
-
-    std::list<Link>* links = nullptr;
-    std::stack<int> pile;
-
-    bool* visited;
-    bool* stacked;
+    void visiteSommetProfondeurR(int index);
+    void visiteSommetProfondeurI(int index);
+    void visiteSommetLargeurI(int index);
 
     int nb_sommets;
+    bool* visited;
+    bool* stacked;
+    std::stack<int> pile;
+    std::queue<int> queue;
+    std::list<Link>* links = nullptr;
 };
 
 

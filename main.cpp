@@ -50,6 +50,7 @@ void liste_adjacence()
     GrapheListe g1(11);
     g1.ajouterArc('A', 'B');
     g1.ajouterArc('A', 'C');
+    g1.ajouterArc('A', 'F');
     g1.ajouterArc('C', 'F');
     g1.ajouterArc('A', 'G');
     g1.ajouterArc('D', 'E');
@@ -69,6 +70,10 @@ void liste_adjacence()
     g1.parcourProfondeurRecursif();
 
     std::cout << std::endl;
-//    std::cout << "parcours iteratif : " << std::endl;
-//    g1.parcourProfondeurIteratif();
+    std::cout << "parcours iteratif (pile) : " << std::endl;
+    g1.parcourProfondeurIteratifPile();
+
+    std::cout << std::endl;
+    std::cout << "parcours iteratif (queue) : " << std::endl;
+    g1.parcourLargeurIteratifQueue();
 }
