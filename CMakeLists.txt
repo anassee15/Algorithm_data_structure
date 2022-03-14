@@ -12,6 +12,6 @@ add_executable(algorithme_structure_donnee
         GrapheListe/GrapheListe.h
         GrapheMatrice/GrapheMatrice.cpp
         GrapheMatrice/GrapheMatrice.h
-        File_priorite/MinHeap.cpp
-        File_priorite/MinHeap.h
+        File_priorite/PriorityQueue.cpp
+        File_priorite/PriorityQueue.h
         main.cpp)
