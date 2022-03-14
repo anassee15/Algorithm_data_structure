@@ -1,0 +1,14 @@
+//
+// Created by anasse.elboudir on 14/03/2022.
+//
+
+#ifndef ALGORITHME_STRUCTURE_DONNEE_MINHEAP_H
+#define ALGORITHME_STRUCTURE_DONNEE_MINHEAP_H
+
+
+class MinHeap {
+
+};
+
+
+#endif //ALGORITHME_STRUCTURE_DONNEE_MINHEAP_H

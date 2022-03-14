@@ -5,10 +5,13 @@ set(CMAKE_CXX_STANDARD 14)
 
 include_directories(GrapheListe)
 include_directories(GrapheMatrice)
+include_directories(File_priorite)
 
 add_executable(algorithme_structure_donnee
         GrapheListe/GrapheListe.cpp
         GrapheListe/GrapheListe.h
         GrapheMatrice/GrapheMatrice.cpp
         GrapheMatrice/GrapheMatrice.h
+        File_priorite/MinHeap.cpp
+        File_priorite/MinHeap.h
         main.cpp)

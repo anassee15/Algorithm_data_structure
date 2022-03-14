@@ -6,11 +6,13 @@
 
 void matrice_contiguite();
 void liste_adjacence();
+void file_priorite();
 
 int main()
 {
     matrice_contiguite();
     liste_adjacence();
+    file_priorite();
 
     return 0;
 }
@@ -79,4 +81,10 @@ void liste_adjacence()
     std::cout << std::endl;
     std::cout << "parcours iteratif (queue) : " << std::endl;
     g1.parcourLargeurIteratifQueue();
+}
+
+void file_priorite()
+{
+    cout << "======= FILE DE PRIORITE =======\n" << endl;
+
 }
