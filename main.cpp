@@ -17,6 +17,7 @@ int main()
 
 void matrice_contiguite()
 {
+    cout << "======= MATRICE CONTIGUITE =======\n" << endl;
     GrapheMatrice g(11);
     g.ajouterArc('A', 'B');
     g.ajouterArc('A', 'C');
@@ -47,6 +48,8 @@ void matrice_contiguite()
 
 void liste_adjacence()
 {
+    cout << "======= LISTE ADJACENCE =======\n" << endl;
+
     GrapheListe g1(11);
     g1.ajouterArc('A', 'B');
     g1.ajouterArc('A', 'C');
