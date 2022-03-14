@@ -8,6 +8,8 @@
 #include <iostream>
 #include <vector>
 
+using namespace std;
+
 typedef struct Nod
 {
     char label;
@@ -17,11 +19,12 @@ typedef struct Nod
 class PriorityQueue {
 public:
     PriorityQueue();
-    void insertion(Nod element);
+    void insert(char label, float = 0.0);
+    void display();
     Nod extraireMin();
-    void diminuerClef();
 
 private:
+    void diminuerClef(char label, float = 0.0);
     std::vector<Nod> liste_priorite;
 };
 

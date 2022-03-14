@@ -3,6 +3,7 @@
 //
 #include "GrapheMatrice/GrapheMatrice.h"
 #include "GrapheListe/GrapheListe.h"
+#include "File_priorite/PriorityQueue.h"
 
 void matrice_contiguite();
 void liste_adjacence();
@@ -86,5 +87,13 @@ void liste_adjacence()
 void file_priorite()
 {
     cout << "======= FILE DE PRIORITE =======\n" << endl;
+
+    PriorityQueue priorityQueue;
+
+    priorityQueue.insert('A', 3);
+    priorityQueue.insert('B', -2);
+    priorityQueue.insert('C', 1);
+
+    priorityQueue.display();
 
 }
