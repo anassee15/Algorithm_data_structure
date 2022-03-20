@@ -21,11 +21,12 @@ public:
     PriorityQueue();
     void insert(char label, float = 0.0);
     void display();
+    bool isEmpty();
     Nod extraireMin();
     Nod getMin();
-    void rendreMinimier();
 
 private:
+    void rendreMinimier();
     void diminuerClef(char label, float = 0.0);
     std::vector<Nod> liste_priorite;
 };

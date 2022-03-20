@@ -12,6 +12,11 @@ PriorityQueue::PriorityQueue()
     this->liste_priorite.push_back(suppr_first_case);
 }
 
+bool PriorityQueue::isEmpty() {
+    return this->liste_priorite.empty();
+}
+
+
 void PriorityQueue::insert(char label, float priority)
 {
     Nod noeud;
@@ -62,17 +67,56 @@ void PriorityQueue::display()
 
 Nod PriorityQueue::extraireMin()
 {
-    Nod min = this->liste_priorite[1];
-    this->liste_priorite[1] = this->liste_priorite[this->liste_priorite.size()];
-    this->liste_priorite.pop_back();
+    Nod min;
 
-    rendreMinimier();
+    if(!this->isEmpty())
+    {
+        min = this->liste_priorite[1];
+        this->liste_priorite[1] = this->liste_priorite[this->liste_priorite.size() - 1];
+        this->liste_priorite.pop_back();
+
+        rendreMinimier();
+    }
+    else
+    {
+        cout << "file vide !!" << endl;
+    }
+
     return min;
 }
 
 void PriorityQueue::rendreMinimier()
 {
-    //TODO: utiliser rendreMaximier()
+    int root = 1;
+    bool maximier = false;
+    int size = this->liste_priorite.size() - 1; // -1 because of we begin at the second case of our vector structure
+    Nod save_root = this->liste_priorite[1];
+
+    while((2 * root) <= size && !maximier)
+    {
+        int save;
+
+        if(2*root + 1 <= size && this->liste_priorite[2*root+1].priority < this->liste_priorite[2*root].priority)
+        {
+            save = 2*root+1;
+        }
+        else
+        {
+            save = 2*root;
+        }
+
+        if(this->liste_priorite[save].priority < save_root.priority)
+        {
+            this->liste_priorite[root] = this->liste_priorite[save];
+            root = save;
+        }
+        else
+        {
+            maximier = true;
+        }
+    }
+
+    this->liste_priorite[root] = save_root;
 }
 
 Nod PriorityQueue::getMin()

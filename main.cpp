@@ -82,6 +82,8 @@ void liste_adjacence()
     std::cout << std::endl;
     std::cout << "parcours iteratif (queue) : " << std::endl;
     g1.parcourLargeurIteratifQueue();
+
+    std::cout << std::endl;
 }
 
 void file_priorite()
@@ -92,8 +94,16 @@ void file_priorite()
 
     priorityQueue.insert('A', 3);
     priorityQueue.insert('B', -2);
-    priorityQueue.insert('C', 1);
+    priorityQueue.insert('C', 4);
 
+    cout << "affichage de notre liste priorite : " << endl;
+    priorityQueue.display();
+
+    Nod tmp = priorityQueue.extraireMin();
+
+    cout << "\nextraire min : (" << tmp.label << ", " << tmp.priority << ")\n" << endl;
+
+    cout << "affichage de notre liste priorite apres extraireMin() : " << endl;
     priorityQueue.display();
 
 }
