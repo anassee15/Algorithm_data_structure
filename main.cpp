@@ -95,8 +95,8 @@ void file_priorite()
     cout << "vide ? " << std::boolalpha << priorityQueue.isEmpty() << std::noboolalpha << '\n' << endl;
 
     priorityQueue.insert('A', 3);
-    priorityQueue.insert('B', -2);
-    priorityQueue.insert('C', 4);
+    priorityQueue.insert('B', 1);
+    priorityQueue.insert('C', 2);
 
     cout << "affichage de notre liste priorite : " << endl;
     priorityQueue.display();
