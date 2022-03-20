@@ -62,5 +62,21 @@ void PriorityQueue::display()
 
 Nod PriorityQueue::extraireMin()
 {
+    Nod min = this->liste_priorite[1];
+    this->liste_priorite[1] = this->liste_priorite[this->liste_priorite.size()];
+    this->liste_priorite.pop_back();
 
+    rendreMinimier();
+    return min;
 }
+
+void PriorityQueue::rendreMinimier()
+{
+    //TODO: utiliser rendreMaximier()
+}
+
+Nod PriorityQueue::getMin()
+{
+    return this->liste_priorite[1];
+}
+

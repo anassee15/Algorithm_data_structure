@@ -22,6 +22,8 @@ public:
     void insert(char label, float = 0.0);
     void display();
     Nod extraireMin();
+    Nod getMin();
+    void rendreMinimier();
 
 private:
     void diminuerClef(char label, float = 0.0);
