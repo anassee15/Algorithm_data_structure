@@ -13,7 +13,7 @@ PriorityQueue::PriorityQueue()
 }
 
 bool PriorityQueue::isEmpty() {
-    return this->liste_priorite.empty();
+    return this->liste_priorite.size() == 1;
 }
 
 
