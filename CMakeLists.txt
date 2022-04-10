@@ -3,10 +3,7 @@ project(algorithme_structure_donnee)
 
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(GrapheListe)
-include_directories(GrapheMatrice)
-include_directories(File_priorite)
-include_directories(Tools)
+include_directories(.)
 
 add_executable(algorithme_structure_donnee
         GrapheListe/GrapheListe.cpp
