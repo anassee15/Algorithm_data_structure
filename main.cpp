@@ -9,20 +9,16 @@ void matrice_contiguite();
 void liste_adjacence();
 void file_priorite();
 void parcours();
+void test();
 
-void test() {
-    string path = R"(C:\Users\anasse.elboudir\Desktop\CODE\algorithme_structure_donnee\create_graph.txt)";
-    GrapheListe g(path, true);
-    g.display();
-}
 using namespace std;
 
 int main() {
 //    matrice_contiguite();
 //    liste_adjacence();
 //    file_priorite();
-    parcours();
-//    test();
+//    parcours();
+    test();
 
     return 0;
 }
@@ -81,7 +77,7 @@ void liste_adjacence() {
     cout << "affichage de notre graphe : " << endl;
     g.display();
 
-    cout << "nombre de degre du sommet A : " << g.degre('A') << endl;
+    cout << "\nnombre de degre du sommet A : " << g.degre('A') << endl;
     cout << boolalpha << "Le graphe est pondere : " << g.estPondere() << noboolalpha << endl;
     cout << boolalpha << "Le graphe est orienter : " << g.estOriente() << noboolalpha << endl;
     cout << boolalpha << "Le graphe est fortement connexe : " << g.estFortementConnexe() << noboolalpha << endl;
@@ -149,4 +145,44 @@ void parcours() {
 
     cout << "\nAlgo DIJKSTRA : " << endl;
     g.dijkstra('A');
+}
+
+void test() {
+    string path = R"(C:\Users\anasse.elboudir\Desktop\CODE\algorithme_structure_donnee\create_graph.txt)";
+    GrapheListe g(path, true);
+    g.display();
+
+    cout << "\nnombre de degre du sommet A : " << g.degre('A') << endl;
+    cout << boolalpha << "Le graphe est pondere : " << g.estPondere() << noboolalpha << endl;
+    cout << boolalpha << "Le graphe est orienter : " << g.estOriente() << noboolalpha << endl;
+    cout << boolalpha << "Le graphe est fortement connexe : " << g.estFortementConnexe() << noboolalpha << endl;
+    cout << boolalpha << "Le graphe est connexe : " << g.estConnexe() << noboolalpha << "\n"
+         << endl;
+
+    cout << "======= PARCOURS SIMPLE =======" << endl;
+
+    cout << "parcours recursif : " << endl;
+    g.parcourProfondeurRecursif();
+
+    cout << "\nparcours profondeur iteratif (pile) : " << endl;
+    g.parcourProfondeurIteratifPile();
+
+    cout << "\nparcours largeur iteratif (queue) : " << endl;
+    g.parcourLargeurIteratifQueue();
+
+    cout << "\n======= PARCOURS GENERALISE =======" << endl;
+
+    cout << "\nparcours generalise (priority_queue) en mode profondeur : " << endl;
+    g.parcourGeneralise(PROFONDEUR);
+
+    cout << "\nparcours generalise (priority_queue) en mode largeur : " << endl;
+    g.parcourGeneralise(LARGEUR);
+
+    cout << "======= PRIM / DIJKSTRA =======" << endl;
+
+    cout << "\nAlgo PRIM : " << endl;
+    g.prim('G', 1);
+
+    cout << "\nAlgo DIJKSTRA : " << endl;
+    g.dijkstra('A', 1);
 }
