@@ -10,7 +10,7 @@
 
 using namespace std;
 
-typedef struct Nod
+typedef struct Vertex
 {
     char label;
     float priority;
@@ -20,15 +20,15 @@ class PriorityQueue {
 public:
     PriorityQueue();
     void insert(char label, float = 0.0);
+    void diminuerClef(char label, float = 0.0, bool = false);
     void display();
     bool isEmpty();
-    Nod extraireMin();
-    Nod getMin();
+    Vertex extraireMin();
+    Vertex getMin();
 
 private:
     void rendreMinimier();
-    void diminuerClef(char label, float = 0.0);
-    std::vector<Nod> liste_priorite;
+    vector<Vertex> liste_priorite;
 };
 
 
