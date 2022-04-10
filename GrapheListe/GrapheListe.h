@@ -75,6 +75,7 @@ private:
     void visiteSommetProfondeurI(int index);
     void visiteSommetLargeurI(int index);
     void visiteSommetGeneraliseI(int index, Mode mode, int = 0);
+    // TODO:CES DEUX VISITES DEJA FAITE DANS GENERALISE MAIS REFAIRE INDIVIDUELLEMENT
     //void visiteSommetDijkstra(int index, Mode mode, int = 0);
     //void visiteSommetPrim(int index, Mode mode, int = 0);
     void find_priority(Mode mode, int* priority, int index_current, int = 0);
