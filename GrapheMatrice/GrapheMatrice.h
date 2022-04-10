@@ -7,33 +7,48 @@
 
 #include <iostream>
 #include <cmath>
+#include <stack>
+#include <queue>
+#include "../Tools/Conversion.h"
+#include "../File_priorite/PriorityQueue.h"
+
+using namespace std;
 
 class GrapheMatrice {
-    public:
-        explicit GrapheMatrice(int nb);
 
-        static char convertIntToChar(int i);
-        static int convertCharToIndex(char s);
+    int taille;
+    bool* visited;
+    bool* stacked;
 
-        void afficherGraphe();
-        void supprimerGraphe();
-        void parcourProfondeurRecursif();
-        void ajouterArc(char s1, char s2, int = 1);
-        void ajouterArcOriente(char s1, char s2, int = 1);
+    int** links = nullptr;
+    stack<int> pile;
+    queue<int> queue;
 
-        int degre(char sommet);
-        bool estFortementConnexe();
-        bool estOriente();
-        bool estPondere();
-        bool estConnexe();
+    PriorityQueue priorityQueue;
 
+public:
+    explicit GrapheMatrice(int nb);
+    ~GrapheMatrice();
 
-    private:
-        void visiteSommetProfondeurR(int index, bool = true);
+    // base du graph
+    void display();
+    void ajouterArc(char s1, char s2, int = 1);
+    void ajouterArcOriente(char s1, char s2, int = 1);
 
-        int taille;
-        bool* visited;
-        int** links = nullptr;
+    // propriete du graph
+    int degre(char sommet);
+    bool estFortementConnexe();
+    bool estOriente();
+    bool estPondere();
+    bool estConnexe();
+
+    // parcours
+    void parcoursProfondeurRecursif();
+    void parcoursProfondeurPile();
+
+private:
+    void visiteSommetProfondeurR(int index, bool = true);
+    void visiteSommetProfondeurPile();
 };
 
 

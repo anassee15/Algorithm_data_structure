@@ -8,19 +8,28 @@
 void matrice_contiguite();
 void liste_adjacence();
 void file_priorite();
+void parcours();
 
-int main()
-{
-    matrice_contiguite();
-    liste_adjacence();
-    file_priorite();
+void test() {
+    string path = R"(C:\Users\anasse.elboudir\Desktop\CODE\algorithme_structure_donnee\create_graph.txt)";
+    GrapheListe g(path, true);
+    g.display();
+}
+using namespace std;
+
+int main() {
+//    matrice_contiguite();
+//    liste_adjacence();
+//    file_priorite();
+    parcours();
+//    test();
 
     return 0;
 }
 
-void matrice_contiguite()
-{
-    cout << "======= MATRICE CONTIGUITE =======\n" << endl;
+void matrice_contiguite() {
+    cout << "======= MATRICE CONTIGUITE =======\n"
+         << endl;
     GrapheMatrice g(11);
     g.ajouterArc('A', 'B');
     g.ajouterArc('A', 'C');
@@ -34,65 +43,60 @@ void matrice_contiguite()
     g.ajouterArc('I', 'K');
     g.ajouterArc('J', 'K');
 
-    std::cout << "affichage de notre graphe : " << std::endl;
-    g.afficherGraphe();
+    cout << "affichage de notre graphe : " << endl;
+    g.display();
 
-    std::cout << "parcours recursif : " << std::endl;
-    g.parcourProfondeurRecursif();
+    cout << "nombre de degre du sommet A : " << g.degre('A') << endl;
+    cout << boolalpha << "Le graphe est pondere : " << g.estPondere() << noboolalpha << endl;
+    cout << boolalpha << "Le graphe est orienter : " << g.estOriente() << noboolalpha << endl;
+    cout << boolalpha << "Le graphe est fortement connexe : " << g.estFortementConnexe() << noboolalpha << endl;
+    cout << boolalpha << "Le graphe est connexe : " << g.estConnexe() << noboolalpha << "\n"
+         << endl;
 
-    std::cout << std::endl << "nombre de degre de a : " << g.degre('a') << std::endl;
-    std::cout << std::boolalpha << "Le graphe est pondere : "  << g.estPondere() << std::noboolalpha << std::endl;
-    std::cout << std::boolalpha << "Le graphe est orienter : "  << g.estOriente() << std::noboolalpha << std::endl;
-    std::cout << std::boolalpha << "Le graphe est fortement connexe : "  << g.estFortementConnexe() << std::noboolalpha<< std::endl;
-    std::cout << std::boolalpha << "Le graphe est connexe : "  << g.estConnexe() << std::noboolalpha << "\n" << std::endl;
-
-    g.supprimerGraphe();
+    cout << "parcours recursif : " << endl;
+    g.parcoursProfondeurRecursif();
 }
 
-void liste_adjacence()
-{
-    cout << "======= LISTE ADJACENCE =======\n" << endl;
+void liste_adjacence() {
+    cout << "======= LISTE ADJACENCE =======\n"
+         << endl;
 
-    GrapheListe g1(11);
-    g1.ajouterArc('A', 'B');
-    g1.ajouterArc('A', 'C');
-    g1.ajouterArc('A', 'F');
-    g1.ajouterArc('C', 'F');
-    g1.ajouterArc('A', 'G');
-    g1.ajouterArc('D', 'E');
-    g1.ajouterArc('F', 'D');
-    g1.ajouterArc('F', 'E');
-    g1.ajouterArc('E', 'G');
-    g1.ajouterArc('I', 'J');
-    g1.ajouterArc('I', 'K');
-    g1.ajouterArc('J', 'K');
+    GrapheListe g(11);
+    g.ajouterArc('A', 'B', 1);
+    g.ajouterArc('A', 'F', 4);
+    g.ajouterArc('A', 'G', 2);
+    g.ajouterArc('A', 'C', 2);
+    g.ajouterArc('C', 'J', 1);
+    g.ajouterArc('D', 'E', 1);
+    g.ajouterArc('F', 'D', 1);
+    g.ajouterArc('F', 'E', 3);
+    g.ajouterArc('G', 'C', 1);
+    g.ajouterArc('G', 'E', 1);
+    g.ajouterArc('H', 'C', 3);
+    g.ajouterArc('H', 'K', 1);
+    g.ajouterArc('I', 'J', 3);
+    g.ajouterArc('I', 'K', 1);
+    g.ajouterArc('J', 'K', 1);
 
-    std::cout << "affichage de notre graphe : " << std::endl;
-    g1.display();
+    cout << "affichage de notre graphe : " << endl;
+    g.display();
 
-    std::cout << std::endl;
-
-    std::cout << "parcours recursif : " << std::endl;
-    g1.parcourProfondeurRecursif();
-
-    std::cout << std::endl;
-    std::cout << "parcours iteratif (pile) : " << std::endl;
-    g1.parcourProfondeurIteratifPile();
-
-    std::cout << std::endl;
-    std::cout << "parcours iteratif (queue) : " << std::endl;
-    g1.parcourLargeurIteratifQueue();
-
-    std::cout << std::endl;
+    cout << "nombre de degre du sommet A : " << g.degre('A') << endl;
+    cout << boolalpha << "Le graphe est pondere : " << g.estPondere() << noboolalpha << endl;
+    cout << boolalpha << "Le graphe est orienter : " << g.estOriente() << noboolalpha << endl;
+    cout << boolalpha << "Le graphe est fortement connexe : " << g.estFortementConnexe() << noboolalpha << endl;
+    cout << boolalpha << "Le graphe est connexe : " << g.estConnexe() << noboolalpha << "\n"
+         << endl;
 }
 
-void file_priorite()
-{
-    cout << "======= FILE DE PRIORITE =======\n" << endl;
+void file_priorite() {
+    cout << "======= FILE DE PRIORITE =======\n"
+         << endl;
 
     PriorityQueue priorityQueue;
 
-    cout << "vide ? " << std::boolalpha << priorityQueue.isEmpty() << std::noboolalpha << '\n' << endl;
+    cout << "vide ? " << boolalpha << priorityQueue.isEmpty() << noboolalpha << '\n'
+         << endl;
 
     priorityQueue.insert('A', 3);
     priorityQueue.insert('B', 1);
@@ -101,12 +105,48 @@ void file_priorite()
     cout << "affichage de notre liste priorite : " << endl;
     priorityQueue.display();
 
-    Nod tmp = priorityQueue.extraireMin();
+    Vertex tmp = priorityQueue.extraireMin();
 
-    cout << "\nextraire min : (" << tmp.label << ", " << tmp.priority << ")\n" << endl;
+    cout << "\nextraire min : (" << tmp.label << ", " << tmp.priority << ")\n"
+         << endl;
 
     cout << "affichage de notre liste priorite apres extraireMin() : " << endl;
     priorityQueue.display();
 
-    cout << "\nvide ? " << std::boolalpha << priorityQueue.isEmpty() << std::noboolalpha << '\n' << endl;
+    cout << "\nvide ? " << boolalpha << priorityQueue.isEmpty() << noboolalpha << '\n'
+         << endl;
+}
+
+void parcours() {
+    string path = R"(C:\Users\anasse.elboudir\Desktop\CODE\algorithme_structure_donnee\create_graph.txt)";
+    GrapheListe g(path, true);
+
+    g.display();
+
+    cout << "======= PARCOURS SIMPLE =======" << endl;
+
+    cout << "parcours recursif : " << endl;
+    g.parcourProfondeurRecursif();
+
+    cout << "\nparcours profondeur iteratif (pile) : " << endl;
+    g.parcourProfondeurIteratifPile();
+
+    cout << "\nparcours largeur iteratif (queue) : " << endl;
+    g.parcourLargeurIteratifQueue();
+
+    cout << "\n======= PARCOURS GENERALISE =======" << endl;
+
+    cout << "\nparcours generalise (priority_queue) en mode profondeur : " << endl;
+    g.parcourGeneralise(PROFONDEUR);
+
+    cout << "\nparcours generalise (priority_queue) en mode largeur : " << endl;
+    g.parcourGeneralise(LARGEUR);
+
+    cout << "======= PRIM / DIJKSTRA =======" << endl;
+
+    cout << "\nAlgo PRIM : " << endl;
+    g.prim('G');
+
+    cout << "\nAlgo DIJKSTRA : " << endl;
+    g.dijkstra('A');
 }

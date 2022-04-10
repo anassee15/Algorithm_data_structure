@@ -6,7 +6,7 @@
 
 PriorityQueue::PriorityQueue() {
     Vertex suppr_first_case;
-    suppr_first_case.priority = -1;
+    suppr_first_case.priority = (float) INT_MIN;
     suppr_first_case.label = ' ';
     this->liste_priorite.push_back(suppr_first_case);
 }
@@ -85,7 +85,7 @@ Vertex PriorityQueue::extraireMin() {
 
         rendreMinimier();
     } else {
-        cout << "file vide !!" << endl;
+        cerr << "file vide !!" << endl;
     }
 
     return min;
@@ -94,7 +94,7 @@ Vertex PriorityQueue::extraireMin() {
 void PriorityQueue::rendreMinimier() {
     int root = 1;
     bool maximier = false;
-    int size = this->liste_priorite.size() - 1; // -1 because of we begin at the second case of our vector structure
+    int size = this->liste_priorite.size() - 1; // -1 car on commence a la seconde case du tableau (pour commencer à l'indice 1)
     Vertex save_root = this->liste_priorite[1];
 
     while ((2 * root) <= size && !maximier) {

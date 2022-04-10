@@ -3,141 +3,91 @@
 //
 
 #include "GrapheMatrice.h"
-using namespace std;
 
-GrapheMatrice::GrapheMatrice(int nb)
-{
+GrapheMatrice::GrapheMatrice(int nb) {
+    this->links = new int *[nb];
+    this->visited = new bool[nb];
+
     this->taille = nb;
-    this->links = new int*[nb];
 
-    for(int i = 0; i < nb; i++)
-    {
+    for (int i = 0; i < this->taille; ++i) {
         this->links[i] = new int[nb];
+        this->visited[i] = false;
 
-        for(int j=0; j < nb; j++)
-        {
+        for (int j = 0; j < this->taille; j++) {
             this->links[i][j] = 0;
         }
     }
-
-    this->visited = new bool[taille];
 }
 
-void GrapheMatrice::afficherGraphe()
-{
-    if (this->links != nullptr)
-    {
-        for(int i=0; i < this->taille; i++)
-        {
-            for(int j=0; j < this->taille; j++)
-            {
+GrapheMatrice::~GrapheMatrice() {
+    for (int i = 0; i < this->taille; ++i) {
+        delete[] this->links[i];
+    }
+
+    delete this->links;
+}
+
+void GrapheMatrice::display() {
+    if (this->links != nullptr) {
+        for (int i = 0; i < this->taille; i++) {
+            for (int j = 0; j < this->taille; j++) {
                 cout << this->links[i][j] << "  ";
             }
-
             cout << endl;
         }
         cout << endl;
     }
 }
 
-int GrapheMatrice::convertCharToIndex(char s)
-{
-    return toupper(s) - 'A';
-}
+void GrapheMatrice::ajouterArc(char s1, char s2, int p) {
+    int index1 = Conversion::charToInt(s1);
+    int index2 = Conversion::charToInt(s2);
 
-char GrapheMatrice::convertIntToChar(int i)
-{
-    char charedInt;
-    charedInt = char(i + 65);
-    return charedInt;
-}
-
-void GrapheMatrice::ajouterArc(char s1, char s2, int p)
-{
-    int index1 = convertCharToIndex(s1);
-    int index2 = convertCharToIndex(s2);
-
-    if(this->links != nullptr)
-    {
+    if (this->links != nullptr) {
         this->links[index1][index2] = p;
         this->links[index2][index1] = p;
     }
 }
 
-void GrapheMatrice::ajouterArcOriente(char s1, char s2, int p)
-{
-    int index1 = convertCharToIndex(s1);
-    int index2 = convertCharToIndex(s2);
+void GrapheMatrice::ajouterArcOriente(char s1, char s2, int p) {
+    int index1 = Conversion::charToInt(s1);
+    int index2 = Conversion::charToInt(s2);
 
-    if(this->links != nullptr)
-    {
+    if (this->links != nullptr) {
         this->links[index1][index2] = p;
     }
 }
 
-int GrapheMatrice::degre(char sommet)
-{
-    int index = convertCharToIndex(sommet);
+int GrapheMatrice::degre(char sommet) {
+    int index = Conversion::charToInt(sommet);
     int degre = 0;
 
-    if(this->links != nullptr)
-    {
-        for(int i=0; i < this->taille; i++)
-        {
-            if(this->links[index][i] != 0)
-            {
-                degre += 1;
-            }
+    for (int j = 0; j < this->taille; j++) {
+        if (this->links[index][j] != 0) {
+            degre++;
         }
     }
     return degre;
 }
 
-void GrapheMatrice::supprimerGraphe()
-{
-    for(int i=0; i < this->taille; i++)
-    {
-        delete[] links[i];
-    }
-
-    delete[] links;
-}
-
-bool GrapheMatrice::estFortementConnexe()
-{
+bool GrapheMatrice::estFortementConnexe() {
     int nb_arrete = 0;
 
-    for(int i=0; i < this->taille; i++)
-    {
-        for (int j=0; j < this->taille; j++)
-        {
-            if (this->links[i][j] == 1)
-            {
+    for (int i = 0; i < this->taille; i++) {
+        for (int j = 0; j < this->taille; j++) {
+            if (this->links[i][j] == 1) {
                 nb_arrete++;
             }
         }
     }
-
-    double sommet = this->taille;
-
-    if(nb_arrete > sommet * std::log2(sommet))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return nb_arrete > (this->taille * log2(this->taille));
 }
 
-bool GrapheMatrice::estOriente()
-{
-    for(int i=0; i < this->taille; i++)
-    {
-        for (int j=0; j < this->taille; j++)
-        {
-            if (this->links[i][j] != this->links[j][i])
-            {
+bool GrapheMatrice::estOriente() {
+    for (int i = 0; i < this->taille; i++) {
+        for (int j = 0; j < this->taille; j++) {
+            if (this->links[i][j] != this->links[j][i]) {
                 return true;
             }
         }
@@ -145,14 +95,10 @@ bool GrapheMatrice::estOriente()
     return false;
 }
 
-bool GrapheMatrice::estPondere()
-{
-    for(int i=0; i < this->taille; i++)
-    {
-        for (int j=0; j < this->taille; j++)
-        {
-            if (this->links[i][j] != 0 && this->links[i][j] != 1)
-            {
+bool GrapheMatrice::estPondere() {
+    for (int i = 0; i < this->taille; i++) {
+        for (int j = 0; j < this->taille; j++) {
+            if (this->links[i][j] != 0 && this->links[i][j] != 1) {
                 return true;
             }
         }
@@ -160,59 +106,58 @@ bool GrapheMatrice::estPondere()
     return false;
 }
 
-void GrapheMatrice::visiteSommetProfondeurR(int index, bool show)
-{
-    // IMPORTANT
-    if(this->visited[index])
-    {
-        return;
-    }
-
-    if (show)
-    {
-        cout << convertIntToChar(index) << endl;
-    }
-
-    this->visited[index] = true;
-
-    for(int j=0; j < this->taille; j++)
-    {
-        if(this->links[index][j] != 0 && !this->visited[j])
-        {
-            visiteSommetProfondeurR(j, show);
-        }
-    }
-}
-
-void GrapheMatrice::parcourProfondeurRecursif()
-{
-    for(int i=0; i < this->taille; i++)
-    {
-        this->visited[i] = false;
-    }
-
-    for(int i=0; i < this->taille; i++)
-    {
-        this->visiteSommetProfondeurR(i);
-    }
-}
-
-bool GrapheMatrice::estConnexe()
-{
-    for(int i=0; i < this->taille; i++)
-    {
+bool GrapheMatrice::estConnexe() {
+    for (int i = 0; i < this->taille; i++) {
         this->visited[i] = false;
     }
 
     visiteSommetProfondeurR(0, false);
 
-    for(int i= 0; i < this->taille; i++)
-    {
-        if(!this->visited[i])
-        {
+    for (int i = 0; i < this->taille; i++) {
+        if (!this->visited[i]) {
             return false;
         }
     }
-
     return true;
+}
+
+void GrapheMatrice::parcoursProfondeurRecursif() {
+    // on marque tout les sommets comme non visiter
+    for (int i = 0; i < this->taille; i++) {
+        this->visited[i] = false;
+    }
+
+    // on visite chaque sommet en profondeur
+    for (int i = 0; i < this->taille; i++) {
+        this->visiteSommetProfondeurR(i);
+    }
+}
+
+void GrapheMatrice::visiteSommetProfondeurR(int index, bool show) {
+    // si le sommet est deja visiter on ne continue pas
+    if (this->visited[index]) {
+        return;
+    }
+
+    if (show) {
+        cout << Conversion::intToChar(index) << endl;
+    }
+
+    // on marque le sommet comme visité
+    this->visited[index] = true;
+
+    // on cherche les sommets voisin du sommet actuel
+    for (int j = 0; j < this->taille; j++) {
+        if (this->links[index][j] != 0 && !this->visited[j]) {
+            visiteSommetProfondeurR(j, show);
+        }
+    }
+}
+
+void GrapheMatrice::parcoursProfondeurPile() {
+
+}
+
+void GrapheMatrice::visiteSommetProfondeurPile() {
+
 }

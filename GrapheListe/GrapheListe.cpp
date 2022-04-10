@@ -4,163 +4,279 @@
 
 #include "GrapheListe.h"
 
-int GrapheListe::convertCharToIndex(char s)
-{
-    return toupper(s) - 'A';
+GrapheListe::GrapheListe(int nb_sommets) {
+    this->nb_sommets = nb_sommets;
+    this->links = new list<Link>[nb_sommets];
+
+    this->visited = new bool[nb_sommets];
+    this->stacked = new bool[nb_sommets];
 }
 
-char GrapheListe::convertIntToChar(int i)
-{
-    char charedInt;
-    charedInt = char(i + 65);
-    return charedInt;
+GrapheListe::GrapheListe(string path, bool ponderer) {
+
+    ifstream file(path, ios::in);  // on ouvre le fichier en lecture, path doit etre le chemin absolu vers le fichier
+
+    if (file) {
+        // creation du graph / sommets
+        string taille;
+        getline(file, taille);
+        this->nb_sommets = stoi(taille);
+
+        this->links = new list<Link>[nb_sommets];
+        this->visited = new bool[nb_sommets];
+        this->stacked = new bool[nb_sommets];
+
+        string line;
+
+        // ajout des arcs
+        do {
+            char s1, s2;
+            if (ponderer) {
+                int p;
+                file >> s1 >> s2 >> p;
+                ajouterArcOriente(s1, s2, p);
+            } else {
+                file >> s1 >> s2;
+                ajouterArcOriente(s1, s2);
+            }
+        } while (getline(file, line));
+
+        file.close();
+    } else
+        cerr << "Impossible d'ouvrir le fichier !" << endl;
 }
 
-GrapheListe::GrapheListe(int sommet)
-{
-    this->nb_sommets = sommet;
-    this->links = new std::list<Link>[sommet];
-    this->visited = new bool[sommet];
-    this->stacked = new bool[sommet];
-}
-
-GrapheListe::~GrapheListe()
-{
+GrapheListe::~GrapheListe() {
     delete[] links;
     links = nullptr;
 }
 
-void GrapheListe::ajouterArc(char s1, char s2, int p)
-{
-    Link nod;
-    nod.label = s1;
-    nod.ponderation = p;
+void GrapheListe::ajouterArc(char s1, char s2, int p) {
+    Link link;
+    link.label = s1;
+    link.ponderation = p;
 
-    this->links[convertCharToIndex(s2)].push_back(nod);
+    this->links[Conversion::charToInt(s2)].push_back(link);
 
-    nod.label = s2;
-    nod.ponderation = p;
-    this->links[this->convertCharToIndex(s1)].push_back(nod);
-
+    link.label = s2;
+    link.ponderation = p;
+    this->links[Conversion::charToInt(s1)].push_back(link);
 }
 
-void GrapheListe::ajouterArcOriente(char s1, char s2, int p)
-{
-    Link nod;
-    nod.label = s2;
-    nod.ponderation = p;
-    this->links[this->convertCharToIndex(s1)].push_back(nod);
+void GrapheListe::ajouterArcOriente(char s1, char s2, int p) {
+
+    Link link;
+    link.label = s2;
+    link.ponderation = p;
+    this->links[Conversion::charToInt(s1)].push_back(link);
 }
 
-void GrapheListe::display()
-{
-    for (int i = 0; i < this->nb_sommets; i++)
-    {
-        std::cout << convertIntToChar(i);
-        for (auto const &nod : this->links[i])
-        {
-            std::cout << " --> (" << nod.label << ", " << nod.ponderation << ")";
+void GrapheListe::display() {
+    for (int i = 0; i < this->nb_sommets; i++) {
+        cout << Conversion::intToChar(i);
+        for (auto const &link: this->links[i]) {
+            cout << " --> (" << link.label << ", " << link.ponderation << ")";
         }
-        std::cout << std::endl;
+        cout << endl;
     }
 }
 
-void GrapheListe::visiteSommetProfondeurR(int index)
-{
-    // IMPORTANT
-    if(this->visited[index])
-    {
+bool GrapheListe::estFortementConnexe() {
+    int nb_arc = 0;
+
+    for(int i=0; i< this->nb_sommets; i++) {
+        for (auto &link: this->links[i]) {
+            nb_arc++;
+        }
+    }
+    return nb_arc > (this->nb_sommets * log2(this->nb_sommets));
+}
+
+bool GrapheListe::estOriente() {
+
+    bool Oriente;
+
+    for(int i=0; i< this->nb_sommets; i++) {
+        for (auto &link: this->links[i]) {
+            Oriente = true;
+            int oppose = Conversion::charToInt(link.label);
+            char actuel = Conversion::intToChar(i);
+
+            for (auto &link2: this->links[oppose]) {
+                if (link2.label == actuel) {
+                    Oriente = false;
+                    break;
+                }
+            }
+            if (Oriente) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool GrapheListe::estPondere() {
+    for(int i=0; i< this->nb_sommets; i++) {
+        for (auto &link: this->links[i]) {
+            if(link.ponderation != 1) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool GrapheListe::estConnexe() {
+    initVisited();
+    visiteSommetProfondeurR(0, false);
+
+    for (int i = 0; i < this->nb_sommets; i++) {
+        if (!this->visited[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int GrapheListe::degre(char sommet) {
+    int degre = 0;
+    int indice_sommet = Conversion::charToInt(sommet);
+
+    for(auto& link: this->links[indice_sommet]) {
+        degre++;
+    }
+    return degre;
+}
+
+void GrapheListe::initVisited() {
+    for (int i = 0; i < this->nb_sommets; i++) {
+        this->visited[i] = false;
+    }
+}
+
+void GrapheListe::initStacked() {
+    for (int i = 0; i < this->nb_sommets; i++) {
+        this->stacked[i] = false;
+    }
+}
+
+void GrapheListe::clearStack() {
+    while (!this->pile.empty()) {
+        this->pile.pop();
+    }
+}
+
+void GrapheListe::clearQueue() {
+    while (!this->queue.empty()) {
+        this->queue.pop();
+    }
+}
+
+void GrapheListe::parcourProfondeurRecursif() {
+    initVisited();
+
+    for (int i = 0; i < this->nb_sommets; i++) {
+        this->visiteSommetProfondeurR(i);
+    }
+}
+
+void GrapheListe::visiteSommetProfondeurR(int index, bool traiter_sommet) {
+    // si le sommet est deja visiter on ne continue pas
+    if (this->visited[index]) {
         return;
     }
 
-    cout << convertIntToChar(index) << endl;
+    // on traite le sommet (ici on affiche)
+    if (traiter_sommet) {
+        cout << Conversion::intToChar(index) << endl;
+    }
 
+    // on marque le sommet comme visité
     this->visited[index] = true;
 
-    for (auto& nod : this->links[index])
-    {
-        visiteSommetProfondeurR(this->convertCharToIndex(nod.label));
+    // pour chaque sommet voisin du sommet actuel on le visite en profondeur
+    for (auto &link: this->links[index]) {
+        visiteSommetProfondeurR(Conversion::charToInt(link.label), traiter_sommet);
     }
 }
 
-void GrapheListe::parcourProfondeurRecursif()
-{
-    for(int i=0; i < this->nb_sommets; i++)
-    {
-        this->visited[i] = false;
-    }
+void GrapheListe::parcourProfondeurIteratifPile() {
 
-    for(int i=0; i < this->nb_sommets; i++)
-    {
-        this->visiteSommetProfondeurR(i);
-    }
+    initVisited();
+    initStacked();
+    clearStack();
 
+    for (int i = 0; i < this->nb_sommets; i++) {
+        this->visiteSommetProfondeurI(i);
+    }
 }
 
-void GrapheListe::visiteSommetProfondeurI(int index)
-{
-    if(!this->visited[index])
-    {
+void GrapheListe::visiteSommetProfondeurI(int index) {
+    // si le sommet n'est pas visite on l'ajoute a la pile
+    if (!this->visited[index]) {
         this->pile.push(index);
+        this->stacked[index] = true;
     }
 
-    while (!this->pile.empty())
-    {
+    // tant que la pile n'est pas vide
+    while (!this->pile.empty()) {
+
+        // on recupere le sommet
         int indice = this->pile.top();
-        cout << convertIntToChar(indice) << endl;
+        // on traite le sommet (ici on affiche)
+        cout << Conversion::intToChar(indice) << endl;
+        // on le supprime de la pile
         this->pile.pop();
 
+        // on le marque comme visite
         this->visited[indice] = true;
 
-        for (auto &nod: this->links[indice]) {
-            int position = convertCharToIndex(nod.label);
-            if (!this->stacked[position] && !this->visited[position])
-            {
-                this->stacked[position] = true;
+        for (auto &link: this->links[indice]) {
+            int position = Conversion::charToInt(link.label);
+
+            if (!this->stacked[position] && !this->visited[position]) {
                 this->pile.push(position);
+                this->stacked[position] = true;
             }
         }
     }
 }
 
-void GrapheListe::parcourProfondeurIteratifPile()
-{
-    for(int i=0; i < this->nb_sommets; i++)
-    {
-        this->visited[i] = false;
-        this->stacked[i] = false;
-    }
+void GrapheListe::parcourLargeurIteratifQueue() {
 
-    while(!this->pile.empty())
-    {
-        this->pile.pop();
-    }
+    initVisited();
+    initStacked();
+    clearQueue();
 
-    for(int i=0; i < this->nb_sommets; i++)
-    {
-        this->visiteSommetProfondeurI(i);
+    for (int i = 0; i < this->nb_sommets; i++) {
+        this->visiteSommetLargeurI(i);
     }
 }
 
-void GrapheListe::visiteSommetLargeurI(int index)
-{
-    if(!this->visited[index])
-    {
+void GrapheListe::visiteSommetLargeurI(int index) {
+    // si le sommet n'est pas visite on l'ajoute a la queue
+    if (!this->visited[index]) {
         this->queue.push(index);
+        this->stacked[index] = true;
     }
 
-    while (!this->queue.empty())
-    {
+    //tant que la queue n'est pas vide
+    while (!this->queue.empty()) {
+        // on recupere le sommet
         int indice = this->queue.front();
-        cout << convertIntToChar(indice) << endl;
-        this->queue.pop();
 
+        // on traite le sommet
+        cout << Conversion::intToChar(indice) << endl;
+
+        // on supprime le sommet de la queue
+        this->queue.pop();
         this->visited[indice] = true;
 
-        for (auto &nod: this->links[indice]) {
-            int position = convertCharToIndex(nod.label);
-            if (!this->stacked[position] && !this->visited[position])
-            {
+        for (auto &link: this->links[indice]) {
+            int position = Conversion::charToInt(link.label);
+
+            if (!this->stacked[position] && !this->visited[position]) {
                 this->stacked[position] = true;
                 this->queue.push(position);
             }
@@ -168,21 +284,129 @@ void GrapheListe::visiteSommetLargeurI(int index)
     }
 }
 
-void GrapheListe::parcourLargeurIteratifQueue()
-{
-    for(int i=0; i < this->nb_sommets; i++)
-    {
-        this->visited[i] = false;
-        this->stacked[i] = false;
-    }
+void GrapheListe::parcourGeneralise(Mode mode) {
 
-    while(!this->queue.empty())
-    {
-        this->queue.pop();
-    }
+    initVisited();
+    initStacked();
 
-    for(int i=0; i < this->nb_sommets; i++)
-    {
-        this->visiteSommetLargeurI(i);
+
+    for (int i = 0; i < this->nb_sommets; i++) {
+        this->visiteSommetGeneraliseI(i, mode);
+    }
+}
+
+void GrapheListe::prim(char startPoint, int verbose) {
+
+    initVisited();
+    initStacked();
+
+    // on commence par le start point
+    this->visiteSommetGeneraliseI(Conversion::charToInt(startPoint), PRIM, verbose);
+
+    // ensuite on traite tout les sommets du graph, si le graphe est connexe normalement tous les points sont deja visité.
+    for (int i = 0; i < this->nb_sommets; i++) {
+        this->visiteSommetGeneraliseI(i, PRIM, verbose);
+    }
+}
+
+void GrapheListe::dijkstra(char startPoint, int verbose) {
+    initVisited();
+    initStacked();
+
+    visiteSommetGeneraliseI(Conversion::charToInt(startPoint), DIJKSTRA, verbose);
+}
+
+void GrapheListe::visiteSommetGeneraliseI(int index, Mode mode, int verbose) {
+
+    if (!this->visited[index]) {
+        int priority = 0;
+        this->stacked[index] = true;
+        char label = Conversion::intToChar(index);
+
+        if (mode == DIJKSTRA) {
+            this->priorityQueue.insert(label, 0);
+        } else {
+            // pour avoir le start point avec une valeur de 0 vu qu'on ne commence pas à A
+            if (mode == PRIM) {
+                this->find_priority(mode, &priority, index, index);
+            } else {
+                this->find_priority(mode, &priority, index);
+            }
+            this->priorityQueue.insert(label, (float) priority);
+        }
+
+        while (!this->priorityQueue.isEmpty()) {
+
+            if (verbose == 1) {
+                priorityQueue.display();
+            }
+            Vertex sommet = this->priorityQueue.extraireMin();
+
+            int i = Conversion::charToInt(sommet.label);
+            this->visited[i] = true;
+            // on traite le sommet
+            cout << sommet.label << " : " << sommet.priority << endl;
+
+            for (auto &link: this->links[Conversion::charToInt(sommet.label)]) {
+                i = Conversion::charToInt(link.label);
+
+                switch (mode) {
+                    case PRIM:
+                        if (!this->visited[i]) {
+                            this->find_priority(mode, &priority, i, Conversion::charToInt(sommet.label));
+
+                            if (!this->stacked[i]) {
+                                this->priorityQueue.insert(link.label, (float) priority);
+                            } else {
+                                this->priorityQueue.diminuerClef(link.label, (float) priority);
+                            }
+                        }
+                        break;
+                    case DIJKSTRA:
+                        if (!this->visited[i]) {
+                            float priority_dijkstra = link.ponderation + sommet.priority;
+                            if (!this->stacked[i]) {
+                                this->priorityQueue.insert(link.label, priority_dijkstra);
+                            } else {
+                                this->priorityQueue.diminuerClef(link.label, priority_dijkstra);
+                            }
+                        }
+                        break;
+                    default:
+                        if (!this->visited[i] && !this->stacked[i]) {
+                            this->visited[i] = true;
+                            this->find_priority(mode, &priority, i);
+                            this->priorityQueue.insert(link.label, (float) priority);
+                        }
+                        break;
+                }
+            }
+        }
+    }
+}
+
+void GrapheListe::find_priority(Mode mode, int *priority, int index_current, int index_older) {
+    switch (mode) {
+        // profondeur -> pile
+        case PROFONDEUR:
+            (*priority)--;
+            break;
+
+            // largeur -> file
+        case LARGEUR:
+            (*priority)++;
+            break;
+
+        case PRIM:
+            for (auto &link: this->links[index_older]) {
+                // on cherche la ponderation entre le sommet de depart(index_older) et le sommet d'arriver(index_current)
+                if (link.label == Conversion::intToChar(index_current)) {
+                    *priority = link.ponderation;
+                    break;
+                }
+            }
+            break;
+        default:
+            break;
     }
 }

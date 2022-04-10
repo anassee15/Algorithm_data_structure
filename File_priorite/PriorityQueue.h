@@ -16,6 +16,10 @@ typedef struct Vertex
     float priority;
 } Nod;
 
+/**
+ * Comportement de notre liste de priorité : lors de l'insertion, si la clé est deja dans le graph la valeur est modifier,
+ * si vous souhaitez diminuer une valeur utiliser diminierClef().
+ */
 class PriorityQueue {
 public:
     PriorityQueue();
