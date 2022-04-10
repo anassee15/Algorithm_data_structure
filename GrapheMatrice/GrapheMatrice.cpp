@@ -20,6 +20,47 @@ GrapheMatrice::GrapheMatrice(int nb) {
     }
 }
 
+GrapheMatrice::GrapheMatrice(const string& path, bool ponderer) {
+
+    ifstream file(path, ios::in);  // on ouvre le fichier en lecture, path doit etre le chemin absolu vers le fichier
+
+    if (file) {
+        // creation du graph / sommets
+        string taille;
+        getline(file, taille);
+        this->taille = stoi(taille);
+
+        this->links = new int *[this->taille];
+        this->visited = new bool[this->taille];
+
+        for (int i = 0; i < this->taille; ++i) {
+            this->links[i] = new int[this->taille];
+            this->visited[i] = false;
+
+            for (int j = 0; j < this->taille; j++) {
+                this->links[i][j] = 0;
+            }
+        }
+
+        string line;
+        // ajout des arcs
+        do {
+            char s1, s2;
+            if (ponderer) {
+                int p;
+                file >> s1 >> s2 >> p;
+                ajouterArcOriente(s1, s2, p);
+            } else {
+                file >> s1 >> s2;
+                ajouterArcOriente(s1, s2);
+            }
+        } while (getline(file, line));
+
+        file.close();
+    } else
+        cerr << "Impossible d'ouvrir le fichier !" << endl;
+}
+
 GrapheMatrice::~GrapheMatrice() {
     for (int i = 0; i < this->taille; ++i) {
         delete[] this->links[i];

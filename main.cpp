@@ -3,15 +3,14 @@
 //
 #include "GrapheMatrice/GrapheMatrice.h"
 #include "GrapheListe/GrapheListe.h"
-#include "File_priorite/PriorityQueue.h"
+
+using namespace std;
 
 void matrice_contiguite();
 void liste_adjacence();
 void file_priorite();
 void parcours();
 void test();
-
-using namespace std;
 
 int main() {
 //    matrice_contiguite();

@@ -7,12 +7,11 @@
 GrapheListe::GrapheListe(int nb_sommets) {
     this->nb_sommets = nb_sommets;
     this->links = new list<Link>[nb_sommets];
-
     this->visited = new bool[nb_sommets];
     this->stacked = new bool[nb_sommets];
 }
 
-GrapheListe::GrapheListe(string path, bool ponderer) {
+GrapheListe::GrapheListe(const string& path, bool ponderer) {
 
     ifstream file(path, ios::in);  // on ouvre le fichier en lecture, path doit etre le chemin absolu vers le fichier
 
@@ -364,7 +363,7 @@ void GrapheListe::visiteSommetGeneraliseI(int index, Mode mode, int verbose) {
                         break;
                     case DIJKSTRA:
                         if (!this->visited[i]) {
-                            float priority_dijkstra = link.ponderation + sommet.priority;
+                            float priority_dijkstra = (float) link.ponderation + sommet.priority;
                             if (!this->stacked[i]) {
                                 this->priorityQueue.insert(link.label, priority_dijkstra);
                             } else {

@@ -18,10 +18,7 @@ using namespace std;
 
 typedef enum
 {
-    LARGEUR,
-    PROFONDEUR,
-    PRIM,
-    DIJKSTRA
+    LARGEUR, PROFONDEUR, PRIM, DIJKSTRA
 } Mode;
 
 typedef struct Link
@@ -44,7 +41,7 @@ class GrapheListe {
 
 public:
     explicit GrapheListe(int nb_sommet);
-    explicit GrapheListe(string path, bool ponderer);
+    explicit GrapheListe(const string& path, bool ponderer);
     ~GrapheListe();
 
     // operation de base graph

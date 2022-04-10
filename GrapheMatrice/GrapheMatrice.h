@@ -6,6 +6,7 @@
 #define ALGORITHME_STRUCTURE_DONNEE_GRAPHEMATRICE_H
 
 #include <iostream>
+#include <fstream>
 #include <cmath>
 #include <stack>
 #include <queue>
@@ -28,19 +29,20 @@ class GrapheMatrice {
 
 public:
     explicit GrapheMatrice(int nb);
+    explicit GrapheMatrice(const string& path, bool ponderer);
     ~GrapheMatrice();
 
-    // base du graph
+    // operation de base du graph
     void display();
     void ajouterArc(char s1, char s2, int = 1);
     void ajouterArcOriente(char s1, char s2, int = 1);
 
-    // propriete du graph
-    int degre(char sommet);
     bool estFortementConnexe();
     bool estOriente();
     bool estPondere();
     bool estConnexe();
+
+    int degre(char sommet);
 
     // parcours
     void parcoursProfondeurRecursif();

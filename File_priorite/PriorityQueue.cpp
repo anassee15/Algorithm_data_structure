@@ -87,7 +87,6 @@ Vertex PriorityQueue::extraireMin() {
     } else {
         cerr << "file vide !!" << endl;
     }
-
     return min;
 }
 
