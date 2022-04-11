@@ -32,7 +32,7 @@ class GrapheListe {
     int nb_sommets;
     bool* visited;
     bool* stacked;
-    int poid_dijkstra;
+    float poid_prim;
 
     stack<int> pile;
     queue<int> queue;
@@ -67,7 +67,7 @@ public:
     void parcourProfondeurRecursif();
     void parcourProfondeurIteratifPile();
     void parcourLargeurIteratifQueue();
-    void parcourGeneralise(Mode = PROFONDEUR);
+    void parcourGeneralise(Mode = PROFONDEUR, int = 0);
     void prim(char = 'A', int = 0);
     void dijkstra(char = 'A', int = 0);
 

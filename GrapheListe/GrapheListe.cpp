@@ -283,13 +283,13 @@ void GrapheListe::visiteSommetLargeurI(int index) {
     }
 }
 
-void GrapheListe::parcourGeneralise(Mode mode) {
+void GrapheListe::parcourGeneralise(Mode mode, int verbose) {
 
     initVisited();
     initStacked();
 
     for (int i = 0; i < this->nb_sommets; i++) {
-        this->visiteSommetGeneraliseI(i, mode);
+        this->visiteSommetGeneraliseI(i, mode, verbose);
     }
 }
 
@@ -297,10 +297,9 @@ void GrapheListe::visiteSommetGeneraliseI(int index, Mode mode, int verbose) {
 
     if (!this->visited[index]) {
         int priority = 0;
-        char label = Conversion::intToChar(index);
-
         this->find_priority(mode, &priority, index);
-        this->priorityQueue.insert(label, (float) priority);
+        // on insere le sommet actuel dans la file de priorite
+        this->priorityQueue.insert(Conversion::intToChar(index), (float) priority);
         this->stacked[index] = true;
 
         while (!this->priorityQueue.isEmpty()) {
@@ -318,11 +317,11 @@ void GrapheListe::visiteSommetGeneraliseI(int index, Mode mode, int verbose) {
             cout << sommet.label << " : " << sommet.priority << endl;
 
             for (auto &link: this->links[Conversion::charToInt(sommet.label)]) {
-                vertex_i = Conversion::charToInt(link.label);
+                int link_i = Conversion::charToInt(link.label);
 
-                if (!this->visited[vertex_i] && !this->stacked[vertex_i]) {
-                    this->visited[vertex_i] = true;
-                    this->find_priority(mode, &priority, vertex_i);
+                if (!this->visited[link_i] && !this->stacked[link_i]) {
+                    this->visited[link_i] = true;
+                    this->find_priority(mode, &priority, link_i);
                     this->priorityQueue.insert(link.label, (float) priority);
                 }
             }
@@ -334,6 +333,7 @@ void GrapheListe::prim(char startPoint, int verbose) {
 
     initVisited();
     initStacked();
+    this->poid_prim = 0;
 
     // on commence par le start point
     this->visiteSommetPrim(Conversion::charToInt(startPoint), verbose);
@@ -342,12 +342,16 @@ void GrapheListe::prim(char startPoint, int verbose) {
     for (int i = 0; i < this->nb_sommets; i++) {
         this->visiteSommetPrim(i, verbose);
     }
+
+    cout << "poid total : " << this->poid_prim << endl;
 }
 
 void GrapheListe::visiteSommetPrim(int index, int verbose, Mode mode) {
     if (!this->visited[index]) {
 
         int priority = 0;
+        // ici la priority sera normalement de 0 car on cherche la ponderation d'un sommet avec lui meme
+        // permet de marquer les différentes composante connexe du graph
         find_priority(mode, &priority, index, index);
 
         char label = Conversion::intToChar(index);
@@ -360,19 +364,20 @@ void GrapheListe::visiteSommetPrim(int index, int verbose, Mode mode) {
             }
 
             Vertex vertex = this->priorityQueue.extraireMin();
-            int i = Conversion::charToInt(vertex.label);
-            this->visited[i] = true;
+            int vertex_i = Conversion::charToInt(vertex.label);
+            this->visited[vertex_i] = true;
 
             // on traite le sommet
             cout << vertex.label << " : " << vertex.priority << endl;
+            this->poid_prim += vertex.priority;
 
-            for (auto &link: this->links[i]) {
-                int indice = Conversion::charToInt(link.label);
+            for (auto &link: this->links[vertex_i]) {
+                int link_i = Conversion::charToInt(link.label);
 
-                if (!this->visited[indice]) {
-                    find_priority(mode, &priority, indice, i);
+                if (!this->visited[link_i]) {
+                    find_priority(mode, &priority, link_i, vertex_i);
 
-                    if (!this->stacked[indice]) {
+                    if (!this->stacked[link_i]) {
                         this->priorityQueue.insert(link.label, (float) priority);
                     } else {
                         this->priorityQueue.diminuerClef(link.label, (float) priority);
@@ -409,11 +414,11 @@ void GrapheListe::visiteSommetDijkstra(int index, int verbose) {
             this->visited[vertex_i] = true;
 
             for (auto &link: this->links[vertex_i]) {
-                int indice = Conversion::charToInt(link.label);
+                int link_i = Conversion::charToInt(link.label);
 
-                if (!this->visited[indice]) {
+                if (!this->visited[link_i]) {
                     float priority_dijkstra = vertex.priority + (float) link.ponderation;
-                    if (!this->stacked[indice]) {
+                    if (!this->stacked[link_i]) {
                         this->priorityQueue.insert(link.label, priority_dijkstra);
                     } else {
                         this->priorityQueue.diminuerClef(link.label, priority_dijkstra);

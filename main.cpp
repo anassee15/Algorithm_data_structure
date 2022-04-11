@@ -149,6 +149,7 @@ void parcours() {
 void test() {
     string path = R"(..\create_graph.txt)";
     GrapheListe g(path, true);
+    int verbose = 0;
     g.display();
 
     cout << "\nnombre de degre du sommet A : " << g.degre('A') << endl;
@@ -172,16 +173,16 @@ void test() {
     cout << "\n======= PARCOURS GENERALISE =======" << endl;
 
     cout << "\nparcours generalise (priority_queue) en mode profondeur : " << endl;
-    g.parcourGeneralise(PROFONDEUR);
+    g.parcourGeneralise(PROFONDEUR, verbose);
 
     cout << "\nparcours generalise (priority_queue) en mode largeur : " << endl;
-    g.parcourGeneralise(LARGEUR);
+    g.parcourGeneralise(LARGEUR, verbose);
 
     cout << "======= PRIM / DIJKSTRA =======" << endl;
 
     cout << "\nAlgo PRIM : " << endl;
-    g.prim('A');
+    g.prim('A', verbose);
 
     cout << "\nAlgo DIJKSTRA : " << endl;
-    g.dijkstra('A');
+    g.dijkstra('A', verbose);
 }

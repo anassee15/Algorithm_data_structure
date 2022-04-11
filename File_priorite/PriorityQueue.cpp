@@ -15,7 +15,6 @@ bool PriorityQueue::isEmpty() {
     return this->liste_priorite.size() == 1;
 }
 
-
 void PriorityQueue::insert(char label, float priority) {
     Vertex noeud;
     noeud.label = label;
@@ -113,7 +112,6 @@ void PriorityQueue::rendreMinimier() {
             maximier = true;
         }
     }
-
     this->liste_priorite[root] = save_root;
 }
 
