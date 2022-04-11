@@ -32,6 +32,7 @@ class GrapheListe {
     int nb_sommets;
     bool* visited;
     bool* stacked;
+    int poid_dijkstra;
 
     stack<int> pile;
     queue<int> queue;

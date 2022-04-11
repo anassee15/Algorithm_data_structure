@@ -180,7 +180,7 @@ void test() {
     cout << "======= PRIM / DIJKSTRA =======" << endl;
 
     cout << "\nAlgo PRIM : " << endl;
-    g.prim();
+    g.prim('A');
 
     cout << "\nAlgo DIJKSTRA : " << endl;
     g.dijkstra('A');
