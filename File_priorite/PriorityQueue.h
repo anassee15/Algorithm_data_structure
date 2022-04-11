@@ -21,6 +21,9 @@ typedef struct Vertex
  * si vous souhaitez diminuer une valeur utiliser diminierClef().
  */
 class PriorityQueue {
+
+    vector<Vertex> liste_priorite;
+
 public:
     PriorityQueue();
     void insert(char label, float = 0.0);
@@ -32,7 +35,6 @@ public:
 
 private:
     void rendreMinimier();
-    vector<Vertex> liste_priorite;
 };
 
 

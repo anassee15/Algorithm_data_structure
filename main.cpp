@@ -147,7 +147,7 @@ void parcours() {
 }
 
 void test() {
-    string path = R"(C:\Users\anasse.elboudir\Desktop\CODE\algorithme_structure_donnee\create_graph.txt)";
+    string path = R"(..\create_graph.txt)";
     GrapheListe g(path, true);
     g.display();
 
@@ -180,8 +180,8 @@ void test() {
     cout << "======= PRIM / DIJKSTRA =======" << endl;
 
     cout << "\nAlgo PRIM : " << endl;
-    g.prim('G', 1);
+    g.prim();
 
     cout << "\nAlgo DIJKSTRA : " << endl;
-    g.dijkstra('A', 1);
+    g.dijkstra('A');
 }
