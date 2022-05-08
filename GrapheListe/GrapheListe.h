@@ -54,7 +54,6 @@ public:
     bool estOriente();
     bool estPondere();
     bool estConnexe();
-
     int degre(char sommet);
 
     // initialisation

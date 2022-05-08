@@ -3,6 +3,7 @@
 //
 #include "GrapheMatrice/GrapheMatrice.h"
 #include "GrapheListe/GrapheListe.h"
+#include  "Table_hachage/TableH.h"
 
 using namespace std;
 
@@ -11,14 +12,15 @@ void liste_adjacence();
 void file_priorite();
 void parcours();
 void test();
+void hachage();
 
 int main() {
 //    matrice_contiguite();
 //    liste_adjacence();
 //    file_priorite();
 //    parcours();
-    test();
-
+//    test();
+hachage();
     return 0;
 }
 
@@ -185,4 +187,10 @@ void test() {
 
     cout << "\nAlgo DIJKSTRA : " << endl;
     g.dijkstra('A', verbose);
+}
+
+void hachage() {
+    string path = R"(..\english.txt)";
+    TableH t(100000, path);
+    cout << t;
 }

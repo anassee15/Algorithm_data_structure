@@ -13,4 +13,4 @@ add_executable(algorithme_structure_donnee
         File_priorite/PriorityQueue.cpp
         File_priorite/PriorityQueue.h
         Tools/Conversion.h
-        main.cpp Tools/Conversion.h)
+        main.cpp Tools/Conversion.h Table_hachage/TableH.cpp Table_hachage/TableH.h)
